@@ -1,0 +1,21 @@
+services:
+  conversation-eval:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: app
+    image: conversation-eval
+    env_file:
+      - ./.env
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - TRANSFORMERS_CACHE=/cache/huggingface
+      - hf_cache:/cache/huggingface
+    volumes:
+      - .:/app
+      - hf_cache:/root/.cache/huggingface
+    ports:
+      - "8000:8000"
+
+volumes:
+  hf_cache:
